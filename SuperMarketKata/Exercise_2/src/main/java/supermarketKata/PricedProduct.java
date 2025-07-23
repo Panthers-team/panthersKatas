@@ -10,4 +10,8 @@ public class PricedProduct {
         this.productPrice = productPrice;
         this.offer = offer;
     }
+
+    public int getProductPrice() {
+        return productPrice - (productPrice * offer / 100);
+    }
 }

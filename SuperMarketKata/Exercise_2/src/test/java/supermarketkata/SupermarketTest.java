@@ -14,6 +14,7 @@ class SupermarketTest {
     @Test
     public void priceSummary() {
         PricedProduct pricedProduct = new PricedProduct("water", 20, 5);
-        assertEquals(Supermarket.calculateSummary(List.of(pricedProduct)), 0);
+
+        assertEquals(19, Supermarket.calculateSummary(List.of(pricedProduct)));
     }
 }
