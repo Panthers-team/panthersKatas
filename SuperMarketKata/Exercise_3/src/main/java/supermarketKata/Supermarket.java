@@ -1,8 +1,12 @@
 package supermarketKata;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
 public class Supermarket {
-    public static int calculateSummary(List<PricedProduct> productList) {
-        return 0;
+    public static List<Integer> calculateSummary(List<ClientSale> clientSales) {
+            return clientSales.stream()
+                    .mapToInt(ClientSale::getPriceProductsSummary).boxed().collect(Collectors.toList())
+                    .stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
     }
 }

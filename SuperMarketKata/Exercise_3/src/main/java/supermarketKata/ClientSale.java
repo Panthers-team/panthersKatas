@@ -10,4 +10,8 @@ public class ClientSale {
         this.name = name;
         this.pricedProducts = pricedProducts;
     }
+
+    public int getPriceProductsSummary() {
+        return pricedProducts.stream().mapToInt(PricedProduct::getProductPrice).sum();
+    }
 }
