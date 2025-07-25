@@ -152,6 +152,7 @@ public class RoverServiceTest {
         Rover response = roverService.findRoverById(1);
 
         assertThat(response).isEqualTo(engineOffRover);
+
     }
 
 

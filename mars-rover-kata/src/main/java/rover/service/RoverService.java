@@ -35,9 +35,13 @@ public class RoverService {
     }
 
     public Rover findRoverById(int id) {
-        //TODO: Implementar despes
 
-        return null;
+        return rovers.stream()
+                .filter(r -> r.getId() == id)
+                .findFirst()
+                .orElse(new Rover());
+
+
     }
 
     public String executeCommands(int id, String commands) {
