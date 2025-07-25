@@ -141,6 +141,18 @@ public class RoverServiceTest {
     }
 
 
+    @Test
+    public void findRover_shouldReturnRover_whenIdExists() {
+        RoverService roverService = new RoverService();
+
+        Rover engineOffRover = new Rover();
+
+        roverService.deployRover(engineOffRover);
+
+        Rover response = roverService.findRoverById(1);
+
+        assertThat(response).isEqualTo(engineOffRover);
+    }
 
 
 }
