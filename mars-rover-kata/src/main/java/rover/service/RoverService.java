@@ -15,10 +15,20 @@ public class RoverService {
         this.id = 1;
     }
     public Rover deployRover(Rover rover) {
+        for (Rover r : rovers) {
+            if (r.getId() == rover.getId()) {
+                r.setPosition(rover.getPosition());
+                r.setDirection(rover.getDirection());
+                r.setRunning(rover.isRunning());
+                return new Rover(r.getId(), r.getPosition(), r.getDirection(), r.getName(), r.isRunning());
+            }
+        }
+
         rover.setId(this.id++);
         rovers.add(rover);
         return rover;
     }
+
 
     public List<Rover> listRovers() {
         return rovers;
