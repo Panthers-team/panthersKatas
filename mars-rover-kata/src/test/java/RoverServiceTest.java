@@ -70,7 +70,15 @@ public class RoverServiceTest {
         assertThat(roversList.get(3).getName()).isEqualTo("Rover 3");
     }
 
+    @Test
+    public void turnOnRover_shouldTurnOn_whenRoverIsOff() {
+        RoverService roverService = new RoverService();
+    }
 
+    @Test
+    public void turnOnRover_shouldNotTurnOn_whenRoverIsOn() {
+
+    }
 
 
 
