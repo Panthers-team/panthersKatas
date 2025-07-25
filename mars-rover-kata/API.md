@@ -24,7 +24,7 @@ mvn spring-boot:run
           "direction": "NORTH",
           "name": "the_rover_1",
           "running": true,
-          "y": 0,
+          "y": 0,[application.properties](src/main/resources/application.properties)
           "x": 0
       },
       {}
