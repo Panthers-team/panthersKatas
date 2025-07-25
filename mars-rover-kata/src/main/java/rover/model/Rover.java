@@ -10,19 +10,17 @@ public class Rover {
     private Direction direction;
     private String name;
     private boolean running;
-    private int x;
-    private int y;
+
 
     public Rover() {}
 
 
-    public Rover(int id, Position position, Direction direction, String name, boolean running, int x, int y) {
+    public Rover(int id, Position position, Direction direction, String name, boolean running) {
         this.id = id;
         this.position = position;
         this.direction = direction;
         this.name = name;
         this.running = running;
-        this.x = x;
-        this.y = y;
+
     }
 }
