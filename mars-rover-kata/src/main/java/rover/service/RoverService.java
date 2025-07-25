@@ -21,7 +21,7 @@ public class RoverService {
     }
 
     public List<Rover> listRovers() {
-        return null;
+        return rovers;
     }
 
     public Rover findRoverById(int id) {
