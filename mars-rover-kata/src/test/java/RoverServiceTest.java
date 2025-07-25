@@ -97,6 +97,13 @@ public class RoverServiceTest {
 
         assertThat(response).isEqualTo("rover 1 is already turned on.");
     }
+    @Test
+    public void turnOnRover_shouldReturnError_whenIdNotExists(){
+        RoverService roverService = new RoverService();
+
+        String response = roverService.turnOnRover(9);
+        assertThat(response).isEqualTo("Rover with ID 9 is not found.");
+    }
 
 
 

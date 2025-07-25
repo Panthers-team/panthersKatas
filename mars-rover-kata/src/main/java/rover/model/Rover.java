@@ -30,4 +30,5 @@ public class Rover {
     public int getY() {
         return position.getY();
     }
+
 }

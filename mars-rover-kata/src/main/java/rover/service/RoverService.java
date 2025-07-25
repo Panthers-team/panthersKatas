@@ -47,10 +47,19 @@ public class RoverService {
     }
 
     public String turnOnRover(int id) {
-        //TODO: Implementar despes
 
-        return null;
+        for( Rover r : rovers ) {
+            if (r.getId() != id) continue;
+
+            if (r.isRunning()) return r.getName() + " is already turned on.";
+
+            r.setRunning(true);
+            return r.getName() + " is now running!";
+        }
+
+        return "Rover with ID " + id + " is not found.";
     }
+
 
     public String turnOffRover(int id) {
         return null;
