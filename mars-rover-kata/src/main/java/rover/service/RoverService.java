@@ -62,6 +62,15 @@ public class RoverService {
 
 
     public String turnOffRover(int id) {
-        return null;
+        for( Rover r : rovers ) {
+            if (r.getId() != id) continue;
+
+            if (!r.isRunning()) return r.getName() + " is already turned off.";
+
+            r.setRunning(false);
+            return r.getName() + " is now stopped!";
+        }
+
+        return "Rover with ID " + id + " is not found.";
     }
 }
