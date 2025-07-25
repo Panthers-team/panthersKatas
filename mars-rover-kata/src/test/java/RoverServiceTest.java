@@ -105,7 +105,40 @@ public class RoverServiceTest {
         assertThat(response).isEqualTo("Rover with ID 9 is not found.");
     }
 
+    @Test
+    public void turnOffRover_shouldTurnOff_whenRoverIsOn() {
+        RoverService roverService = new RoverService();
 
+        Rover engineOffRover = new Rover();
+        engineOffRover.setRunning(Boolean.TRUE);
+        engineOffRover.setName("rover 1");
+        roverService.deployRover(engineOffRover);
+
+        String response = roverService.turnOffRover(engineOffRover.getId());
+
+        assertThat(response).isEqualTo("rover 1 is now stopped!");
+    }
+
+    @Test
+    public void turnOffRover_shouldNotTurnOff_whenRoverIsOff() {
+        RoverService roverService = new RoverService();
+
+        Rover engineOffRover = new Rover();
+        engineOffRover.setRunning(Boolean.FALSE);
+        engineOffRover.setName("rover 1");
+        roverService.deployRover(engineOffRover);
+
+        String response = roverService.turnOffRover(engineOffRover.getId());
+
+        assertThat(response).isEqualTo("rover 1 is already turned off.");
+    }
+    @Test
+    public void turnOffRover_shouldReturnError_whenIdNotExists(){
+        RoverService roverService = new RoverService();
+
+        String response = roverService.turnOffRover(9);
+        assertThat(response).isEqualTo("Rover with ID 9 is not found.");
+    }
 
 
 }
