@@ -3,13 +3,21 @@ package rover.service;
 import org.springframework.stereotype.Service;
 import rover.model.Rover;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class RoverService {
 
-    public Rover deployRover() {
-        //TODO: Implementar despes
-        return null;
+    private List<Rover> rovers;
+    private int id;
+    public RoverService() {
+        this.rovers = new ArrayList<>();
+        this.id = 1;
+    }
+    public Rover deployRover(Rover rover) {
+        rover.setId(this.id++);
+        rovers.add(rover);
+        return rover;
     }
 
     public List<Rover> listRovers() {

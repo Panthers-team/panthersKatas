@@ -23,4 +23,11 @@ public class Rover {
         this.running = running;
 
     }
+
+    public int getX() {
+        return position.getX();
+    }
+    public int getY() {
+        return position.getY();
+    }
 }
