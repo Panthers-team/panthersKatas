@@ -73,11 +73,29 @@ public class RoverServiceTest {
     @Test
     public void turnOnRover_shouldTurnOn_whenRoverIsOff() {
         RoverService roverService = new RoverService();
+
+        Rover engineOffRover = new Rover();
+        engineOffRover.setRunning(Boolean.FALSE);
+        engineOffRover.setName("rover 1");
+        roverService.deployRover(engineOffRover);
+
+        String response = roverService.turnOnRover(engineOffRover.getId());
+
+        assertThat(response).isEqualTo("rover 1 is now running!");
     }
 
     @Test
     public void turnOnRover_shouldNotTurnOn_whenRoverIsOn() {
+        RoverService roverService = new RoverService();
 
+        Rover engineOffRover = new Rover();
+        engineOffRover.setRunning(Boolean.TRUE);
+        engineOffRover.setName("rover 1");
+        roverService.deployRover(engineOffRover);
+
+        String response = roverService.turnOnRover(engineOffRover.getId());
+
+        assertThat(response).isEqualTo("rover 1 is already turned on.");
     }
 
 
