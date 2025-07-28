@@ -10,6 +10,7 @@ public class RoverService {
 
     private List<Rover> rovers;
     private int id;
+
     public RoverService() {
         this.rovers = new ArrayList<>();
         this.id = 1;
@@ -39,7 +40,7 @@ public class RoverService {
         return rovers.stream()
                 .filter(r -> r.getId() == id)
                 .findFirst()
-                .orElse(new Rover());
+                .orElseThrow(() -> new RuntimeException("No rover found with id " + id));
 
 
     }

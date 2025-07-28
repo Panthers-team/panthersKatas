@@ -7,6 +7,7 @@ import rover.service.RoverService;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 public class RoverServiceTest {
@@ -153,6 +154,16 @@ public class RoverServiceTest {
 
         assertThat(response).isEqualTo(engineOffRover);
 
+    }
+
+
+    @Test
+    public void findRover_shouldReturnError_whenIdNotExists() {
+        RoverService roverService = new RoverService();
+
+        assertThatThrownBy(() -> roverService.findRoverById(-1))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("No rover found with id -1");
     }
 
 
