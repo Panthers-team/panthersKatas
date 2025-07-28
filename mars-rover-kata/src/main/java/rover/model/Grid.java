@@ -31,12 +31,17 @@ public class Grid {
         }
 
         Cell cell = grid[x][y];
-        return !cell.isObstacle() && cell.getRoverId() == -1;
+        return !cell.isObstacle() && cell.getRover() == null;
     }
 
 
-    public void deployRoverInPosition(Position position, int roverId) {
-        Cell cell = grid[position.getX()][position.getY()];
-        cell.setRoverId(roverId);
+    public void deployRoverInPosition(Rover currentRover) {
+        Cell cell = grid[currentRover.getX()][currentRover.getY()];
+        cell.occupyWithRover(currentRover);
+    }
+
+    public void removeRoverFromCell(Position currentPosition) {
+        Cell cell = grid[currentPosition.getX()][currentPosition.getY()];
+        cell.removeRover();
     }
 }

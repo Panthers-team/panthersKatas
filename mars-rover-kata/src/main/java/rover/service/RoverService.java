@@ -30,14 +30,14 @@ public class RoverService {
                         .build();
 
                 roverList.set(i, updated);
-                gridManager.deployRover(updated.getPosition(),updated.getId());
+                gridManager.deployRover(updated);
                 return updated;
             }
         }
 
         rover.setId(this.id++);
         roverList.add(rover);
-        gridManager.deployRover(rover.getPosition(),rover.getId());
+        gridManager.deployRover(rover);
 
         return rover;
     }

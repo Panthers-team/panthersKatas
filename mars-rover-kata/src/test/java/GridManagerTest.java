@@ -1,0 +1,178 @@
+import org.junit.jupiter.api.Test;
+import rover.model.Direction;
+import rover.model.Grid;
+import rover.model.Position;
+import rover.model.Rover;
+import rover.service.GridManager;
+import rover.service.RoverService;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+
+public class GridManagerTest {
+
+
+    @Test
+    public void createGrid_shouldBeCreated() {
+
+        Grid grid = new Grid();
+
+        assertThat(grid.getGrid()).isNotNull();
+    }
+
+    @Test
+    public void deployRover_shouldReturnTrue_whenPositionIsValidAndEmpty() {
+        GridManager gridManager = new GridManager();
+        Rover rover = createTestingRover();
+
+        Position position = new Position(0, 0);
+        int roverId = 1;
+
+        boolean deployed = gridManager.deployRover(rover);
+
+        assertThat(deployed).isTrue();
+
+    }
+
+    @Test
+    public void deployRover_shouldReturnFalse_whenPositionIsInvalid() {
+        GridManager gridManager = new GridManager();
+        Rover firstRover = createTestingRover();
+        firstRover.setPosition(new Position(5, 5));
+
+        assertThatThrownBy(() -> gridManager.deployRover(firstRover))
+                .isInstanceOf(IndexOutOfBoundsException.class)
+                .hasMessage("Position out of bounds!");
+        Rover secondRover = createTestingRover();
+        secondRover.setPosition(new Position(2, 2));
+        assertThat(gridManager.deployRover(secondRover)).isTrue();
+        assertThat(gridManager.deployRover(secondRover)).isFalse();
+
+    }
+
+    @Test
+    public void moveForward_shouldMoveNorth_whenDirectionIsNorth() {
+        GridManager gridManager = new GridManager();
+        RoverService roverService = new RoverService();
+        Rover rover = createTestingRover();
+
+        roverService.deployRover(rover);
+
+        String response = gridManager.moveForward(rover);
+
+        assertThat(response).isEqualTo("Rover is not turned on.");
+
+        rover.setRunning(true);
+        response = gridManager.moveForward(rover);
+
+        assertThat(response).isEqualTo("Rover moved to Cell ("+rover.getX()+","+rover.getY()+")");
+
+        assertThat(roverService.findRoverById(1).getPosition())
+                .isEqualTo(rover.getPosition());
+    }
+
+    @Test
+    public void moveForward_shouldWrapAroundAndMoveCorrectly_forAllDirections() {
+        GridManager gridManager = new GridManager();
+        RoverService roverService = new RoverService();
+
+        // NORTH desde (2,0) → (2,4)
+        Rover northRover = Rover.builder()
+                .position(new Position(2, 0))
+                .direction(Direction.NORTH)
+                .name("Northy")
+                .running(true)
+                .build();
+        roverService.deployRover(northRover);
+        String responseNorth = gridManager.moveForward(northRover);
+        assertThat(responseNorth).isEqualTo("Rover moved to Cell (2,1)");
+        assertThat(roverService.findRoverById(1).getPosition())
+                .isEqualTo(northRover.getPosition());
+
+        Rover southRover = Rover.builder()
+                .position(new Position(2, 4))
+                .direction(Direction.SOUTH)
+                .name("South")
+                .running(true)
+                .build();
+        roverService.deployRover(southRover);
+        String responseSouth = gridManager.moveForward(southRover);
+        assertThat(responseSouth).isEqualTo("Rover moved to Cell (2,3)");
+        assertThat(roverService.findRoverById(2).getPosition())
+                .isEqualTo(southRover.getPosition());
+
+        Rover eastRover = Rover.builder()
+                .position(new Position(4, 3))
+                .direction(Direction.EAST)
+                .name("East")
+                .running(true)
+                .build();
+        roverService.deployRover(eastRover);
+        String responseEast = gridManager.moveForward(eastRover);
+        assertThat(responseEast).isEqualTo("Rover moved to Cell (0,3)");
+        assertThat(roverService.findRoverById(3).getPosition())
+                .isEqualTo(eastRover.getPosition());
+
+        Rover westRover = Rover.builder()
+                .position(new Position(0, 3))
+                .direction(Direction.WEST)
+                .name("West")
+                .running(true)
+                .build();
+        roverService.deployRover(westRover);
+        String responseWest = gridManager.moveForward(westRover);
+        assertThat(responseWest).isEqualTo("Rover moved to Cell (4,3)");
+        assertThat(roverService.findRoverById(4).getPosition())
+                .isEqualTo(westRover.getPosition());
+    }
+
+    @Test
+    public void moveBackwards_shouldMoveInCorrectDirection_whenDirectionIsAny() {
+        GridManager gridManager = new GridManager();
+        RoverService roverService = new RoverService();
+
+        Rover northRover = createTestingRover(new Position(2, 2), Direction.NORTH);
+        roverService.deployRover(northRover);
+        String responseNorth = gridManager.moveBackwards(northRover);
+        assertThat(responseNorth).isEqualTo("Rover moved to Cell (2,1)");
+
+        Rover southRover = createTestingRover(new Position(2, 2), Direction.SOUTH);
+        roverService.deployRover(southRover);
+        String responseSouth = gridManager.moveBackwards(southRover);
+        assertThat(responseSouth).isEqualTo("Rover moved to Cell (2,3)");
+
+        Rover eastRover = createTestingRover(new Position(2, 2), Direction.EAST);
+        roverService.deployRover(eastRover);
+        String responseEast = gridManager.moveBackwards(eastRover);
+        assertThat(responseEast).isEqualTo("Rover moved to Cell (1,2)");
+
+        Rover westRover = createTestingRover(new Position(2, 2), Direction.WEST);
+        roverService.deployRover(westRover);
+        String responseWest = gridManager.moveBackwards(westRover);
+        assertThat(responseWest).isEqualTo("Rover moved to Cell (3,2)");
+    }
+
+
+    private Rover createTestingRover(Position position, Direction direction) {
+        return Rover.builder()
+                .position(position)
+                .name("TestRover")
+                .direction(direction)
+                .running(true)
+                .build();
+    }
+
+    private Rover createTestingRover() {
+       return Rover
+                .builder()
+                .position(new Position(2,2))
+                .name("Rover de Edu")
+                .running(Boolean.FALSE)
+                .direction(Direction.NORTH)
+                .build();
+    }
+
+
+
+
+}

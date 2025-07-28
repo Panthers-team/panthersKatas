@@ -1,5 +1,6 @@
 package rover.service;
 
+import rover.model.Direction;
 import rover.model.Grid;
 import rover.model.Position;
 import rover.model.Rover;
@@ -13,14 +14,54 @@ public class GridManager {
     }
 
 
-    public boolean deployRover(Position position, int roverId) {
+    public boolean deployRover(Rover currentRover) {
 
-        if(!grid.isPositionAvailable(position)) {
+        if(!grid.isPositionAvailable(currentRover.getPosition())) {
             return false;
         }
-        grid.deployRoverInPosition(position, roverId);
+
+        grid.deployRoverInPosition(currentRover);
         return true;
     }
 
 
+    public String moveForward(Rover currentRover) {
+
+        if (!currentRover.isRunning()) return "Rover is not turned on.";
+
+        Position currentPosition = currentRover.getPosition();
+        Position nextPosition = calculateNextPosition(currentPosition, currentRover.getDirection());
+
+        if(!grid.isPositionAvailable(nextPosition)) return "Next position is already occupied.";
+
+        grid.removeRoverFromCell(currentPosition);
+        currentRover.setPosition(nextPosition);
+        grid.deployRoverInPosition(currentRover);
+        return "Rover moved to Cell ("+nextPosition.getX()+","+nextPosition.getY()+")";
+    }
+
+    private Position calculateNextPosition(Position current, Direction direction) {
+        int x = current.getX();
+        int y = current.getY();
+
+        switch (direction) {
+            case NORTH:
+                y = (y + 1) % grid.getRows();
+                break;
+            case SOUTH:
+                y = (y - 1 + grid.getRows()) % grid.getRows();
+                break;
+            case EAST:
+                x = (x + 1) % grid.getColumns();
+                break;
+            case WEST:
+                x = (x - 1 + grid.getColumns()) % grid.getColumns();
+                break;
+        }
+        return new Position(x, y);
+    }
+
+    public String moveBackwards(Rover eastRover) {
+        return null;
+    }
 }

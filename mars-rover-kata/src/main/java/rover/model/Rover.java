@@ -12,9 +12,6 @@ public class Rover {
     private String name;
     private boolean running;
 
-
-
-
     public int getX() {
         return position.getX();
     }
