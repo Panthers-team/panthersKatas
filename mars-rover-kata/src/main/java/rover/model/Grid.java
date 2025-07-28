@@ -10,7 +10,7 @@ public class Grid {
 
     private Cell[][] grid;
 
-    public Grid(int rows, int cols) {
-        grid = new Cell[rows][cols];
+    public Grid() {
+        grid = new Cell[5][5];
     }
 }

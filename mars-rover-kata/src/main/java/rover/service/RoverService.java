@@ -10,10 +10,12 @@ public class RoverService {
 
     private List<Rover> rovers;
     private int id;
+    private GridManager gridManager;
 
     public RoverService() {
         this.rovers = new ArrayList<>();
         this.id = 1;
+        this.gridManager = new GridManager();
     }
     public Rover deployRover(Rover rover) {
         for (Rover r : rovers) {
