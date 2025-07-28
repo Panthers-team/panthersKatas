@@ -16,30 +16,34 @@ public class RoverServiceTest {
     public void deployRover_shouldCreateRover_whenInputIsValid() {
         RoverService roverService = new RoverService();
 
-        Rover eduRover = new Rover();
-        eduRover.setPosition(new Position(1,1));
-        eduRover.setName("Rover de Edu");
-        eduRover.setDirection(Direction.NORTH);
-        eduRover.setRunning(Boolean.FALSE);
+        Rover eduRover = Rover.builder()
+                .position(new Position(1, 1))
+                .name("Rover de Edu")
+                .direction(Direction.NORTH)
+                .running(false)
+                .build();
 
         Rover created = roverService.deployRover(eduRover);
 
         assertThat(created.getName()).isEqualTo("Rover de Edu");
         assertThat(created.getDirection()).isEqualTo(Direction.NORTH);
-        assertThat(created.isRunning()).isEqualTo(Boolean.FALSE);
+        assertThat(created.isRunning()).isFalse();
         assertThat(created.getPosition().getX()).isEqualTo(1);
+        assertThat(created.getPosition().getY()).isEqualTo(1);
     }
+
 
     @Test
     public void deployRover_shouldUpdateExistingRover_whenRoverAlreadyDeployed() {
         RoverService roverService = new RoverService();
-        List<Rover> rovers = roverService.listRovers();
-        Rover eduRover = new Rover();
-
-        eduRover.setPosition(new Position(1,1));
-        eduRover.setName("Rover de Edu");
-        eduRover.setDirection(Direction.NORTH);
-        eduRover.setRunning(Boolean.FALSE);
+        List<Rover> rovers;
+        Rover eduRover = Rover
+                .builder()
+                .position(new Position(1,1))
+                .name("Rover de Edu")
+                .running(Boolean.FALSE)
+                .direction(Direction.NORTH)
+                .build();
 
         roverService.deployRover(eduRover);
         eduRover.setPosition(new Position(5,4));
@@ -55,29 +59,34 @@ public class RoverServiceTest {
     @Test
     public void listRovers_shouldReturnAllRovers_whenMultipleRoversDeployed() {
         RoverService roverService = new RoverService();
+
         for (int i = 0; i < 5; i++) {
-            Rover addingRover = new Rover();
-            addingRover.setPosition(new Position(1,1));
-            addingRover.setName("Rover " + i);
-            addingRover.setDirection(Direction.NORTH);
-            addingRover.setRunning(Boolean.FALSE);
+            Rover addingRover = Rover.builder()
+                    .position(new Position(1, 1))
+                    .name("Rover " + i)
+                    .direction(Direction.NORTH)
+                    .running(false)
+                    .build();
 
             roverService.deployRover(addingRover);
         }
 
         List<Rover> roversList = roverService.listRovers();
 
-        assertThat(roversList.size()).isEqualTo(5);
+        assertThat(roversList).hasSize(5);
         assertThat(roversList.get(3).getName()).isEqualTo("Rover 3");
     }
+
 
     @Test
     public void turnOnRover_shouldTurnOn_whenRoverIsOff() {
         RoverService roverService = new RoverService();
 
-        Rover engineOffRover = new Rover();
-        engineOffRover.setRunning(Boolean.FALSE);
-        engineOffRover.setName("rover 1");
+        Rover engineOffRover = Rover.builder()
+                .name("rover 1")
+                .running(false)
+                .build();
+
         roverService.deployRover(engineOffRover);
 
         String response = roverService.turnOnRover(engineOffRover.getId());
@@ -85,19 +94,23 @@ public class RoverServiceTest {
         assertThat(response).isEqualTo("rover 1 is now running!");
     }
 
+
     @Test
     public void turnOnRover_shouldNotTurnOn_whenRoverIsOn() {
         RoverService roverService = new RoverService();
 
-        Rover engineOffRover = new Rover();
-        engineOffRover.setRunning(Boolean.TRUE);
-        engineOffRover.setName("rover 1");
-        roverService.deployRover(engineOffRover);
+        Rover engineOnRover = Rover.builder()
+                .name("rover 1")
+                .running(true)
+                .build();
 
-        String response = roverService.turnOnRover(engineOffRover.getId());
+        roverService.deployRover(engineOnRover);
+
+        String response = roverService.turnOnRover(engineOnRover.getId());
 
         assertThat(response).isEqualTo("rover 1 is already turned on.");
     }
+
     @Test
     public void turnOnRover_shouldReturnError_whenIdNotExists(){
         RoverService roverService = new RoverService();
@@ -110,29 +123,35 @@ public class RoverServiceTest {
     public void turnOffRover_shouldTurnOff_whenRoverIsOn() {
         RoverService roverService = new RoverService();
 
-        Rover engineOffRover = new Rover();
-        engineOffRover.setRunning(Boolean.TRUE);
-        engineOffRover.setName("rover 1");
-        roverService.deployRover(engineOffRover);
+        Rover engineOnRover = Rover.builder()
+                .name("rover 1")
+                .running(true)
+                .build();
 
-        String response = roverService.turnOffRover(engineOffRover.getId());
+        roverService.deployRover(engineOnRover);
+
+        String response = roverService.turnOffRover(engineOnRover.getId());
 
         assertThat(response).isEqualTo("rover 1 is now stopped!");
     }
+
 
     @Test
     public void turnOffRover_shouldNotTurnOff_whenRoverIsOff() {
         RoverService roverService = new RoverService();
 
-        Rover engineOffRover = new Rover();
-        engineOffRover.setRunning(Boolean.FALSE);
-        engineOffRover.setName("rover 1");
+        Rover engineOffRover = Rover.builder()
+                .name("rover 1")
+                .running(false)
+                .build();
+
         roverService.deployRover(engineOffRover);
 
         String response = roverService.turnOffRover(engineOffRover.getId());
 
         assertThat(response).isEqualTo("rover 1 is already turned off.");
     }
+
     @Test
     public void turnOffRover_shouldReturnError_whenIdNotExists(){
         RoverService roverService = new RoverService();
@@ -146,15 +165,20 @@ public class RoverServiceTest {
     public void findRover_shouldReturnRover_whenIdExists() {
         RoverService roverService = new RoverService();
 
-        Rover engineOffRover = new Rover();
+        Rover engineOffRover = Rover.builder()
+                .name("TestRover")
+                .running(false)
+                .position(new Position(0, 0))
+                .direction(Direction.NORTH)
+                .build();
 
-        roverService.deployRover(engineOffRover);
+        Rover deployed = roverService.deployRover(engineOffRover);
 
-        Rover response = roverService.findRoverById(1);
+        Rover found = roverService.findRoverById(deployed.getId());
 
-        assertThat(response).isEqualTo(engineOffRover);
-
+        assertThat(found).isEqualTo(deployed);
     }
+
 
 
     @Test

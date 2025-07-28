@@ -18,12 +18,19 @@ public class RoverService {
         this.gridManager = new GridManager();
     }
     public Rover deployRover(Rover rover) {
-        for (Rover r : rovers) {
+        for (int i = 0; i < rovers.size(); i++) {
+            Rover r = rovers.get(i);
             if (r.getId() == rover.getId()) {
-                r.setPosition(rover.getPosition());
-                r.setDirection(rover.getDirection());
-                r.setRunning(rover.isRunning());
-                return new Rover(r.getId(), r.getPosition(), r.getDirection(), r.getName(), r.isRunning());
+                Rover updated = Rover.builder()
+                        .id(r.getId())
+                        .position(rover.getPosition())
+                        .direction(rover.getDirection())
+                        .name(r.getName())
+                        .running(rover.isRunning())
+                        .build();
+
+                rovers.set(i, updated);
+                return updated;
             }
         }
 
@@ -31,6 +38,7 @@ public class RoverService {
         rovers.add(rover);
         return rover;
     }
+
 
 
     public List<Rover> listRovers() {

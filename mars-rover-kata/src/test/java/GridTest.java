@@ -1,11 +1,10 @@
 import org.junit.jupiter.api.Test;
-import rover.model.Direction;
 import rover.model.Grid;
 import rover.model.Position;
-import rover.model.Rover;
 import rover.service.GridManager;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class GridTest {
 
@@ -19,17 +18,26 @@ public class GridTest {
     }
 
     @Test
-    public void deployRover_shouldBeDeployed_whenPositionIsValid() {
+    public void deployRover_shouldReturnTrue_whenPositionIsValidAndEmpty() {
         GridManager gridManager = new GridManager();
 
-        Rover rover = new Rover();
-        rover.setId(1);
-        rover.setName("Rover 1");
-        rover.setDirection(Direction.NORTH);
-        rover.setPosition(new Position(0,0));
+        Position position = new Position(0, 0);
+        int roverId = 1;
 
-        boolean response = gridManager.deployRover(rover.getPosition(), rover.getId());
+        boolean deployed = gridManager.deployRover(position, roverId);
 
-        assertThat(response).isTrue();
+        assertThat(deployed).isTrue();
+
     }
+
+    @Test
+    public void deployRover_shouldReturnFalse_whenPositionIsInvalid() {
+        GridManager gridManager = new GridManager();
+        Position position = new Position(5, 5);
+        int roverId = 1;
+        assertThatThrownBy(() -> gridManager.deployRover(position, roverId))
+                .isInstanceOf(IndexOutOfBoundsException.class)
+                .hasMessage("Position out of bounds!");
+    }
+
 }

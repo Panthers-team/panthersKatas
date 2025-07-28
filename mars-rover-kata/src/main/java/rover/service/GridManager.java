@@ -13,10 +13,13 @@ public class GridManager {
     }
 
 
-    public boolean deployRover(Position pos, int roverId) {
+    public boolean deployRover(Position position, int roverId) {
 
-
-        return false;
+        if(!grid.isPositionAvailable(position)) {
+            return false;
+        }
+        grid.deployRoverInPosition(position, roverId);
+        return true;
     }
 
 

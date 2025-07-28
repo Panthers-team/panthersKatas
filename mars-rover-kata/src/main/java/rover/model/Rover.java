@@ -3,6 +3,7 @@ import lombok.*;
 
 @Getter
 @Setter
+@Builder
 public class Rover {
 
     private int id;
@@ -12,17 +13,7 @@ public class Rover {
     private boolean running;
 
 
-    public Rover() {}
 
-
-    public Rover(int id, Position position, Direction direction, String name, boolean running) {
-        this.id = id;
-        this.position = position;
-        this.direction = direction;
-        this.name = name;
-        this.running = running;
-
-    }
 
     public int getX() {
         return position.getX();
