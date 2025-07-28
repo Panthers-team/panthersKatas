@@ -40,6 +40,25 @@ public class GridManager {
         return "Rover moved to Cell ("+nextPosition.getX()+","+nextPosition.getY()+")";
     }
 
+
+
+    public String moveBackwards(Rover currentRover) {
+        if (!currentRover.isRunning()) return "Rover is not turned on.";
+
+        Position currentPosition = currentRover.getPosition();
+        Direction oppositeDirection = currentRover.getDirection().opposite();
+        Position nextPosition = calculateNextPosition(currentPosition, oppositeDirection);
+
+        if (!grid.isPositionAvailable(nextPosition)) return "Next position is already occupied.";
+
+        grid.removeRoverFromCell(currentPosition);
+        currentRover.setPosition(nextPosition);
+        grid.deployRoverInPosition(currentRover);
+
+        return "Rover moved to Cell (" + nextPosition.getX() + "," + nextPosition.getY() + ")";
+    }
+
+
     private Position calculateNextPosition(Position current, Direction direction) {
         int x = current.getX();
         int y = current.getY();
@@ -59,9 +78,5 @@ public class GridManager {
                 break;
         }
         return new Position(x, y);
-    }
-
-    public String moveBackwards(Rover eastRover) {
-        return null;
     }
 }

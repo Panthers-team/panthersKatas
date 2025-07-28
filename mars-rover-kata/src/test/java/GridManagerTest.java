@@ -76,7 +76,6 @@ public class GridManagerTest {
         GridManager gridManager = new GridManager();
         RoverService roverService = new RoverService();
 
-        // NORTH desde (2,0) → (2,4)
         Rover northRover = Rover.builder()
                 .position(new Position(2, 0))
                 .direction(Direction.NORTH)
