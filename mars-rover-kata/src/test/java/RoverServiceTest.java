@@ -46,12 +46,12 @@ public class RoverServiceTest {
                 .build();
 
         roverService.deployRover(eduRover);
-        eduRover.setPosition(new Position(5,4));
+        eduRover.setPosition(new Position(3,4));
         roverService.deployRover(eduRover);
 
         rovers = roverService.listRovers();
         assertThat(rovers.size()).isEqualTo(1);
-        assertThat(rovers.get(0).getX()).isEqualTo(5);
+        assertThat(rovers.get(0).getX()).isEqualTo(3);
         assertThat(rovers.get(0).getY()).isEqualTo(4);
     }
 
@@ -84,6 +84,8 @@ public class RoverServiceTest {
 
         Rover engineOffRover = Rover.builder()
                 .name("rover 1")
+                .position(new Position(1, 1))
+                .direction(Direction.NORTH)
                 .running(false)
                 .build();
 
@@ -101,6 +103,8 @@ public class RoverServiceTest {
 
         Rover engineOnRover = Rover.builder()
                 .name("rover 1")
+                .position(new Position(1, 1))
+                .direction(Direction.NORTH)
                 .running(true)
                 .build();
 
@@ -125,6 +129,8 @@ public class RoverServiceTest {
 
         Rover engineOnRover = Rover.builder()
                 .name("rover 1")
+                .position(new Position(1, 1))
+                .direction(Direction.NORTH)
                 .running(true)
                 .build();
 
@@ -142,6 +148,8 @@ public class RoverServiceTest {
 
         Rover engineOffRover = Rover.builder()
                 .name("rover 1")
+                .position(new Position(1, 1))
+                .direction(Direction.NORTH)
                 .running(false)
                 .build();
 

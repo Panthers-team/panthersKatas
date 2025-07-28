@@ -38,6 +38,13 @@ public class GridTest {
         assertThatThrownBy(() -> gridManager.deployRover(position, roverId))
                 .isInstanceOf(IndexOutOfBoundsException.class)
                 .hasMessage("Position out of bounds!");
+
+        Position nextPosition = new Position(2, 2);
+        assertThat(gridManager.deployRover(nextPosition, roverId)).isTrue();
+        assertThat(gridManager.deployRover(nextPosition, roverId)).isFalse();
+
     }
+
+
 
 }

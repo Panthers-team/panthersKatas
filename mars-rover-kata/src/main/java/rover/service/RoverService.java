@@ -8,18 +8,18 @@ import java.util.List;
 @Service
 public class RoverService {
 
-    private List<Rover> rovers;
+    private List<Rover> roverList;
     private int id;
     private GridManager gridManager;
 
     public RoverService() {
-        this.rovers = new ArrayList<>();
+        this.roverList = new ArrayList<>();
         this.id = 1;
         this.gridManager = new GridManager();
     }
     public Rover deployRover(Rover rover) {
-        for (int i = 0; i < rovers.size(); i++) {
-            Rover r = rovers.get(i);
+        for (int i = 0; i < roverList.size(); i++) {
+            Rover r = roverList.get(i);
             if (r.getId() == rover.getId()) {
                 Rover updated = Rover.builder()
                         .id(r.getId())
@@ -29,25 +29,28 @@ public class RoverService {
                         .running(rover.isRunning())
                         .build();
 
-                rovers.set(i, updated);
+                roverList.set(i, updated);
+                gridManager.deployRover(updated.getPosition(),updated.getId());
                 return updated;
             }
         }
 
         rover.setId(this.id++);
-        rovers.add(rover);
+        roverList.add(rover);
+        gridManager.deployRover(rover.getPosition(),rover.getId());
+
         return rover;
     }
 
 
 
     public List<Rover> listRovers() {
-        return rovers;
+        return roverList;
     }
 
     public Rover findRoverById(int id) {
 
-        return rovers.stream()
+        return roverList.stream()
                 .filter(r -> r.getId() == id)
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No rover found with id " + id));
@@ -63,7 +66,7 @@ public class RoverService {
 
     public String turnOnRover(int id) {
 
-        for( Rover r : rovers ) {
+        for( Rover r : roverList) {
             if (r.getId() != id) continue;
 
             if (r.isRunning()) return r.getName() + " is already turned on.";
@@ -77,7 +80,7 @@ public class RoverService {
 
 
     public String turnOffRover(int id) {
-        for( Rover r : rovers ) {
+        for( Rover r : roverList) {
             if (r.getId() != id) continue;
 
             if (!r.isRunning()) return r.getName() + " is already turned off.";
