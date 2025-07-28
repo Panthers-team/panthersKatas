@@ -26,11 +26,11 @@ public class RoverController {
     }
     @PostMapping("/deploy_rover")
     public Rover deployRover(@RequestBody Rover request) {
-        return null;
+        return roverService.deployRover(request);
     }
     @GetMapping("/rover/{id}")
     public Rover findRover(@PathVariable int id) {
-        return null;
+        return roverService.findRoverById(id);
     }
     @PostMapping("/rover/{id}")
     public String executeRover(@PathVariable int id, @RequestBody Map<String, String> request) {
@@ -38,12 +38,12 @@ public class RoverController {
     }
     @GetMapping("/turn-on-rover/{id}")
     public String turnOnRover(@PathVariable int id) {
-        return null;
+        return roverService.turnOnRover(id);
     }
 
     @GetMapping("/turn-off-rover/{id}")
     public String turnOffRover(@PathVariable int id) {
-        return null;
+        return roverService.turnOffRover(id);
     }
 
 
