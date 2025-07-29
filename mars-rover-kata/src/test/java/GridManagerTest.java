@@ -25,9 +25,6 @@ public class GridManagerTest {
         GridManager gridManager = new GridManager();
         Rover rover = createTestingRover();
 
-        Position position = new Position(0, 0);
-        int roverId = 1;
-
         boolean deployed = gridManager.deployRover(rover);
 
         assertThat(deployed).isTrue();
@@ -53,10 +50,9 @@ public class GridManagerTest {
     @Test
     public void moveForward_shouldMoveNorth_whenDirectionIsNorth() {
         GridManager gridManager = new GridManager();
-        RoverService roverService = new RoverService();
         Rover rover = createTestingRover();
 
-        roverService.deployRover(rover);
+        gridManager.deployRover(rover);
 
         String response = gridManager.moveForward(rover);
 
@@ -67,26 +63,22 @@ public class GridManagerTest {
 
         assertThat(response).isEqualTo("Rover moved to Cell ("+rover.getX()+","+rover.getY()+")");
 
-        assertThat(roverService.findRoverById(1).getPosition())
-                .isEqualTo(rover.getPosition());
     }
 
     @Test
     public void moveForward_shouldWrapAroundAndMoveCorrectly_forAllDirections() {
         GridManager gridManager = new GridManager();
-        RoverService roverService = new RoverService();
-
         Rover northRover = Rover.builder()
                 .position(new Position(2, 0))
                 .direction(Direction.NORTH)
-                .name("Northy")
+                .name("North")
                 .running(true)
                 .build();
-        roverService.deployRover(northRover);
+
+        gridManager.deployRover(northRover);
         String responseNorth = gridManager.moveForward(northRover);
         assertThat(responseNorth).isEqualTo("Rover moved to Cell (2,1)");
-        assertThat(roverService.findRoverById(1).getPosition())
-                .isEqualTo(northRover.getPosition());
+
 
         Rover southRover = Rover.builder()
                 .position(new Position(2, 4))
@@ -94,11 +86,10 @@ public class GridManagerTest {
                 .name("South")
                 .running(true)
                 .build();
-        roverService.deployRover(southRover);
+        gridManager.deployRover(southRover);
         String responseSouth = gridManager.moveForward(southRover);
         assertThat(responseSouth).isEqualTo("Rover moved to Cell (2,3)");
-        assertThat(roverService.findRoverById(2).getPosition())
-                .isEqualTo(southRover.getPosition());
+
 
         Rover eastRover = Rover.builder()
                 .position(new Position(4, 3))
@@ -106,11 +97,10 @@ public class GridManagerTest {
                 .name("East")
                 .running(true)
                 .build();
-        roverService.deployRover(eastRover);
+        gridManager.deployRover(eastRover);
         String responseEast = gridManager.moveForward(eastRover);
         assertThat(responseEast).isEqualTo("Rover moved to Cell (0,3)");
-        assertThat(roverService.findRoverById(3).getPosition())
-                .isEqualTo(eastRover.getPosition());
+
 
         Rover westRover = Rover.builder()
                 .position(new Position(0, 3))
@@ -118,11 +108,10 @@ public class GridManagerTest {
                 .name("West")
                 .running(true)
                 .build();
-        roverService.deployRover(westRover);
+        gridManager.deployRover(westRover);
         String responseWest = gridManager.moveForward(westRover);
         assertThat(responseWest).isEqualTo("Rover moved to Cell (4,3)");
-        assertThat(roverService.findRoverById(4).getPosition())
-                .isEqualTo(westRover.getPosition());
+
     }
 
     @Test
