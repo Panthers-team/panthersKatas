@@ -5,18 +5,24 @@ import rover.model.Grid;
 import rover.model.Position;
 import rover.model.Rover;
 
+import java.util.List;
+
 public class GridManager {
 
-    private Grid grid;
+    private final Grid grid;
 
     public GridManager() {
-        grid = new Grid();
+        grid = new Grid(List.of());
+    }
+
+    public GridManager(Grid grid) {
+        this.grid = grid;
     }
 
 
     public boolean deployRover(Rover currentRover) {
 
-        if(!grid.isPositionAvailable(currentRover.getPosition())) {
+        if(grid.isPositionOccupied(currentRover.getPosition())) {
             return false;
         }
 
@@ -32,7 +38,7 @@ public class GridManager {
         Position currentPosition = currentRover.getPosition();
         Position nextPosition = calculateNextPosition(currentPosition, currentRover.getDirection());
 
-        if(!grid.isPositionAvailable(nextPosition)) return "Next position is already occupied.";
+        if (grid.isPositionOccupied(nextPosition)) return "Collision! Rock detected at: (" + nextPosition.getX() + ", " + nextPosition.getY() + ")";
 
         grid.removeRoverFromCell(currentPosition);
         currentRover.setPosition(nextPosition);
@@ -49,7 +55,7 @@ public class GridManager {
         Direction oppositeDirection = currentRover.getDirection().opposite();
         Position nextPosition = calculateNextPosition(currentPosition, oppositeDirection);
 
-        if (!grid.isPositionAvailable(nextPosition)) return "Next position is already occupied.";
+        if (grid.isPositionOccupied(nextPosition)) return "Next position is already occupied.";
 
         grid.removeRoverFromCell(currentPosition);
         currentRover.setPosition(nextPosition);

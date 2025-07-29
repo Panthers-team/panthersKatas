@@ -10,14 +10,20 @@ import java.util.List;
 @Service
 public class RoverService {
 
-    private List<Rover> roverList;
+    private final List<Rover> roverList;
     private int id;
-    private GridManager gridManager;
+    private final GridManager gridManager;
 
     public RoverService() {
         this.roverList = new ArrayList<>();
         this.id = 1;
         this.gridManager = new GridManager();
+    }
+
+    public RoverService(GridManager gridManager) {
+        this.gridManager = gridManager;
+        this.id = 1;
+        this.roverList = new ArrayList<>();
     }
     public Rover deployRover(Rover rover) {
         for (int i = 0; i < roverList.size(); i++) {
@@ -79,6 +85,10 @@ public class RoverService {
             }
 
             log.append(formatLogLine(stage++, command, roverExec, description)).append("\n");
+
+            if (description.contains("Collision!")) {
+                break;
+            }
         }
 
         return log.toString().trim();
@@ -138,16 +148,12 @@ public class RoverService {
 
     private String getLogHeader() {
 
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("======================================\n");
-        sb.append("=== MARS ROVER KATA - EXECUTION LOG===\n");
-        sb.append("======================================\n");
-        sb.append("------------------------------------------------------------------------------\n");
-        sb.append("| Stage |       Action        |     Position     |     Description\n");
-        sb.append("------------------------------------------------------------------------------\n");
-
-        return sb.toString();
+        return "======================================\n" +
+                "=== MARS ROVER KATA - EXECUTION LOG===\n" +
+                "======================================\n" +
+                "------------------------------------------------------------------------------\n" +
+                "| Stage |       Action        |     Position     |     Description\n" +
+                "------------------------------------------------------------------------------\n";
 
     }
 

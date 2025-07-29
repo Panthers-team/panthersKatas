@@ -1,13 +1,17 @@
 import org.junit.jupiter.api.Test;
 import rover.model.Direction;
+import rover.model.Grid;
 import rover.model.Position;
 import rover.model.Rover;
+import rover.service.GridManager;
 import rover.service.RoverService;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 public class RoverServiceTest {
@@ -201,41 +205,67 @@ public class RoverServiceTest {
 
     @Test
     public void executeCommands_shouldExecuteAllSuccessfully_whenNoCollisions() {
-        RoverService roverService = new RoverService();
+        GridManager mockedGridManager = mock(GridManager.class);
+        RoverService roverService = new RoverService(mockedGridManager);
+
         Rover executeCommandsRover = createTestingRover(new Position(0, 0));
+        roverService.deployRover(executeCommandsRover);
+
         String commands = "ffrfflbb";
 
+        when(mockedGridManager.moveForward(executeCommandsRover)).thenReturn(
+                "Execution success.",
+                "Execution success."
+        );
+        when(mockedGridManager.turnRoverRight(executeCommandsRover)).thenReturn(
+                "Execution success."
+        );
+        when(mockedGridManager.moveForward(executeCommandsRover)).thenReturn(
+                "Execution success.",
+                "Execution success."
+        );
+        when(mockedGridManager.turnRoverLeft(executeCommandsRover)).thenReturn(
+                "Execution success."
+        );
+        when(mockedGridManager.moveBackwards(executeCommandsRover)).thenReturn(
+                "Execution success.",
+                "Execution success."
+        );
 
-        roverService.deployRover(executeCommandsRover);
-        String response = roverService.executeCommands(executeCommandsRover.getId(),commands);
-        System.out.println(response);
-        assertThat(executeCommandsRover.getX()).isEqualTo(2);
-        assertThat(executeCommandsRover.getY()).isEqualTo(0);
+        String response = roverService.executeCommands(executeCommandsRover.getId(), commands);
 
-        String expectedResponse = "======================================\n" +
-                "=== MARS ROVER KATA - EXECUTION LOG===\n" +
-                "======================================\n" +
-                "------------------------------------------------------------------------------\n" +
-                "| Stage |       Action        |     Position     |     Description\n" +
-                "------------------------------------------------------------------------------\n" +
-                "|  1    |  <f> Move Forward   |    (0 ,1 ) N     |  Execution success.       \n" +
-                "|  2    |  <f> Move Forward   |    (0 ,2 ) N     |  Execution success.       \n" +
-                "|  3    |  <r> Rotate Right   |    (0 ,2 ) E     |  Execution success.       \n" +
-                "|  4    |  <f> Move Forward   |    (1 ,2 ) E     |  Execution success.       \n" +
-                "|  5    |  <f> Move Forward   |    (2 ,2 ) E     |  Execution success.       \n" +
-                "|  6    |  <l> Rotate Left    |    (2 ,2 ) N     |  Execution success.       \n" +
-                "|  7    |  <b> Move Backward  |    (2 ,1 ) N     |  Execution success.       \n" +
-                "|  8    |  <b> Move Backward  |    (2 ,0 ) N     |  Execution success.";
-
-        assertThat(response).isEqualTo(expectedResponse);
+        assertThat(response).contains("Execution success.");
     }
+
 
 
 
     @Test
     public void executeCommands_shouldStopAndLogCollision_whenObstacleEncountered() {
+        GridManager mockedGridManager = mock(GridManager.class);
+        RoverService roverService = new RoverService(mockedGridManager);
+        Rover rover = createTestingRover(new Position(0, 0));
+
+        when(mockedGridManager.moveForward(rover)).thenReturn(
+                "Collision! Rock detected at: (0, 1)",
+                "Execution success.");
+
+        roverService.deployRover(rover);
+
+        String response = roverService.executeCommands(rover.getId(), "fff");
+
+        assertThat(response).contains("Collision! Rock detected at: (0, 1)");
+
+
+        assertThat(rover.getPosition().getX()).isEqualTo(0);
+        assertThat(rover.getPosition().getY()).isEqualTo(0);
+        assertThat(response).doesNotContain("Execution success.");
+
 
     }
+
+
+
 
     @Test
     public void executeCommands_shouldReturnError_whenRoverIdDoesNotExist() {

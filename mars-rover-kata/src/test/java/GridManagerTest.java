@@ -6,6 +6,8 @@ import rover.model.Rover;
 import rover.service.GridManager;
 import rover.service.RoverService;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
@@ -15,7 +17,7 @@ public class GridManagerTest {
     @Test
     public void createGrid_shouldBeCreated() {
 
-        Grid grid = new Grid();
+        Grid grid = new Grid(List.of());
 
         assertThat(grid.getGrid()).isNotNull();
     }
@@ -210,6 +212,7 @@ public class GridManagerTest {
         String offResponse = gridManager.turnRoverLeft(offRover);
         assertThat(offResponse).isEqualTo("Rover is not turned on.");
     }
+
 
     private Rover createTestingRover(Position position, Direction direction) {
         return Rover.builder()
