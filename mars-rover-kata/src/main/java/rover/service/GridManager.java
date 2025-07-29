@@ -37,7 +37,7 @@ public class GridManager {
         grid.removeRoverFromCell(currentPosition);
         currentRover.setPosition(nextPosition);
         grid.deployRoverInPosition(currentRover);
-        return "Rover moved to Cell ("+nextPosition.getX()+","+nextPosition.getY()+")";
+        return "Execution success.";
     }
 
 
@@ -55,7 +55,7 @@ public class GridManager {
         currentRover.setPosition(nextPosition);
         grid.deployRoverInPosition(currentRover);
 
-        return "Rover moved to Cell (" + nextPosition.getX() + "," + nextPosition.getY() + ")";
+        return "Execution success.";
     }
 
 
@@ -86,7 +86,7 @@ public class GridManager {
         }
 
         currentRover.turnRight();
-        return "Rover turned right. Now facing " + currentRover.getDirection();
+        return "Execution success.";
     }
 
     public String turnRoverLeft(Rover currentRover) {
@@ -95,6 +95,10 @@ public class GridManager {
         }
 
         currentRover.turnLeft();
-        return "Rover turned left. Now facing " + currentRover.getDirection();
+        return "Execution success.";
     }
+
+
+
+
 }

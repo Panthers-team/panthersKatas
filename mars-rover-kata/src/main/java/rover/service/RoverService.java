@@ -1,6 +1,8 @@
 package rover.service;
 
 import org.springframework.stereotype.Service;
+import rover.model.Direction;
+import rover.model.Position;
 import rover.model.Rover;
 
 import java.util.ArrayList;
@@ -59,10 +61,31 @@ public class RoverService {
     }
 
     public String executeCommands(int id, String commands) {
-        //TODO: Implementar despes
+        StringBuilder log = new StringBuilder();
+        Rover roverExec = findRoverById(id);
+        int stage = 1;
+        log.append(getLogHeader());
+        for (char command : commands.toCharArray()) {
+            String description;
 
-        return null;
+            switch (command) {
+                case 'f' -> description = gridManager.moveForward(roverExec);
+                case 'b' -> description = gridManager.moveBackwards(roverExec);
+                case 'l' -> description = gridManager.turnRoverLeft(roverExec);
+                case 'r' -> description = gridManager.turnRoverRight(roverExec);
+                default -> {
+                    description = "Unknown command";
+                    log.append(formatLogLine(stage++, command, roverExec, description)).append("\n");
+                    continue;
+                }
+            }
+
+            log.append(formatLogLine(stage++, command, roverExec, description)).append("\n");
+        }
+
+        return log.toString().trim();
     }
+
 
     public String turnOnRover(int id) {
 
@@ -91,4 +114,43 @@ public class RoverService {
 
         return "Rover with ID " + id + " is not found.";
     }
+
+    private String formatLogLine(int stage, char command, Rover rover, String description) {
+        String action = switch (command) {
+            case 'f' -> "Move Forward";
+            case 'b' -> "Move Backward";
+            case 'l' -> "Rotate Left";
+            case 'r' -> "Rotate Right";
+            default -> "Unknown";
+        };
+
+        Position pos = rover.getPosition();
+        Direction dir = rover.getDirection();
+
+        return String.format("|  %-4d |  <%-1s> %-13s  |    (%-2d,%-2d) %-4s  |  %-25s",
+                stage,
+                command,
+                action,
+                pos.getX(),
+                pos.getY(),
+                dir.name().charAt(0),
+                description);
+
+    }
+
+    private String getLogHeader() {
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("======================================\n");
+        sb.append("=== MARS ROVER KATA - EXECUTION LOG===\n");
+        sb.append("======================================\n");
+        sb.append("-------------------------------------------------------------------------------------\n");
+        sb.append("| Stage |       Action        |     Position     |      Description\n");
+        sb.append("-------------------------------------------------------------------------------------\n");
+
+        return sb.toString();
+
+    }
+
 }

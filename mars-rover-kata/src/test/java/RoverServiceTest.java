@@ -208,7 +208,7 @@ public class RoverServiceTest {
 
         roverService.deployRover(executeCommandsRover);
         String response = roverService.executeCommands(executeCommandsRover.getId(),commands);
-
+        System.out.println(response);
         assertThat(executeCommandsRover.getX()).isEqualTo(2);
         assertThat(executeCommandsRover.getY()).isEqualTo(0);
     }
