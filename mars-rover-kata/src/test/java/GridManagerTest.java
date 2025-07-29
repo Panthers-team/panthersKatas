@@ -175,6 +175,42 @@ public class GridManagerTest {
         assertThat(offResponse).isEqualTo("Rover is not turned on.");
     }
 
+
+    @Test
+    public void turnLeft_shouldTurnLeft_whenFacingAnyDirection() {
+        GridManager gridManager = new GridManager();
+        Rover northRover = createTestingRover(new Position(2, 2), Direction.NORTH);
+        Rover southRover = createTestingRover(new Position(2, 2), Direction.SOUTH);
+        Rover eastRover = createTestingRover(new Position(2, 2), Direction.EAST);
+        Rover westRover = createTestingRover(new Position(2, 2), Direction.WEST);
+
+        gridManager.deployRover(northRover);
+        gridManager.deployRover(southRover);
+        gridManager.deployRover(eastRover);
+        gridManager.deployRover(westRover);
+
+        String northResponse = gridManager.turnRoverLeft(northRover);
+        String southResponse = gridManager.turnRoverLeft(southRover);
+        String eastResponse = gridManager.turnRoverLeft(eastRover);
+        String westResponse = gridManager.turnRoverLeft(westRover);
+
+        assertThat(northResponse).isEqualTo("Rover turned right. Now facing EAST");
+        assertThat(southResponse).isEqualTo("Rover turned right. Now facing WEST");
+        assertThat(eastResponse).isEqualTo("Rover turned right. Now facing SOUTH");
+        assertThat(westResponse).isEqualTo("Rover turned right. Now facing NORTH");
+
+    }
+
+    @Test
+    public void turnLeft_shouldNotTurnLeft_whenRoverIsOff() {
+        GridManager gridManager = new GridManager();
+        Rover offRover = createTestingRover(new Position(2, 2), Direction.NORTH);
+        offRover.setRunning(false);
+        gridManager.deployRover(offRover);
+        String offResponse = gridManager.turnRoverLeft(offRover);
+        assertThat(offResponse).isEqualTo("Rover is not turned on.");
+    }
+
     private Rover createTestingRover(Position position, Direction direction) {
         return Rover.builder()
                 .position(position)
