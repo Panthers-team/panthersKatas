@@ -211,6 +211,23 @@ public class RoverServiceTest {
         System.out.println(response);
         assertThat(executeCommandsRover.getX()).isEqualTo(2);
         assertThat(executeCommandsRover.getY()).isEqualTo(0);
+
+        String expectedResponse = "======================================\n" +
+                "=== MARS ROVER KATA - EXECUTION LOG===\n" +
+                "======================================\n" +
+                "------------------------------------------------------------------------------\n" +
+                "| Stage |       Action        |     Position     |     Description\n" +
+                "------------------------------------------------------------------------------\n" +
+                "|  1    |  <f> Move Forward   |    (0 ,1 ) N     |  Execution success.       \n" +
+                "|  2    |  <f> Move Forward   |    (0 ,2 ) N     |  Execution success.       \n" +
+                "|  3    |  <r> Rotate Right   |    (0 ,2 ) E     |  Execution success.       \n" +
+                "|  4    |  <f> Move Forward   |    (1 ,2 ) E     |  Execution success.       \n" +
+                "|  5    |  <f> Move Forward   |    (2 ,2 ) E     |  Execution success.       \n" +
+                "|  6    |  <l> Rotate Left    |    (2 ,2 ) N     |  Execution success.       \n" +
+                "|  7    |  <b> Move Backward  |    (2 ,1 ) N     |  Execution success.       \n" +
+                "|  8    |  <b> Move Backward  |    (2 ,0 ) N     |  Execution success.";
+
+        assertThat(response).isEqualTo(expectedResponse);
     }
 
 
@@ -222,7 +239,12 @@ public class RoverServiceTest {
 
     @Test
     public void executeCommands_shouldReturnError_whenRoverIdDoesNotExist() {
+        RoverService roverService = new RoverService();
+        Rover executeCommandsRover = createTestingRover(new Position(0, 0));
+        String commands = "ffff";
 
+        assertThatThrownBy(() -> roverService.executeCommands(executeCommandsRover.getId(), commands))
+                .hasMessage("No rover found with id 0");
     }
 
     private Rover createTestingRover(Position position) {

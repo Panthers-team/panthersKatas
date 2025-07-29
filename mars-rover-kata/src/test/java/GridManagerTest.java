@@ -61,7 +61,7 @@ public class GridManagerTest {
         rover.setRunning(true);
         response = gridManager.moveForward(rover);
 
-        assertThat(response).isEqualTo("Rover moved to Cell ("+rover.getX()+","+rover.getY()+")");
+        assertThat(response).isEqualTo("Execution success.");
 
     }
 
@@ -77,7 +77,7 @@ public class GridManagerTest {
 
         gridManager.deployRover(northRover);
         String responseNorth = gridManager.moveForward(northRover);
-        assertThat(responseNorth).isEqualTo("Rover moved to Cell (2,1)");
+        assertThat(responseNorth).isEqualTo("Execution success.");
 
 
         Rover southRover = Rover.builder()
@@ -88,7 +88,7 @@ public class GridManagerTest {
                 .build();
         gridManager.deployRover(southRover);
         String responseSouth = gridManager.moveForward(southRover);
-        assertThat(responseSouth).isEqualTo("Rover moved to Cell (2,3)");
+        assertThat(responseSouth).isEqualTo("Execution success.");
 
 
         Rover eastRover = Rover.builder()
@@ -99,7 +99,7 @@ public class GridManagerTest {
                 .build();
         gridManager.deployRover(eastRover);
         String responseEast = gridManager.moveForward(eastRover);
-        assertThat(responseEast).isEqualTo("Rover moved to Cell (0,3)");
+        assertThat(responseEast).isEqualTo("Execution success.");
 
 
         Rover westRover = Rover.builder()
@@ -110,7 +110,7 @@ public class GridManagerTest {
                 .build();
         gridManager.deployRover(westRover);
         String responseWest = gridManager.moveForward(westRover);
-        assertThat(responseWest).isEqualTo("Rover moved to Cell (4,3)");
+        assertThat(responseWest).isEqualTo("Execution success.");
 
     }
 
@@ -121,22 +121,22 @@ public class GridManagerTest {
         Rover northRover = createTestingRover(new Position(2, 2), Direction.NORTH);
         gridManager.deployRover(northRover);
         String responseNorth = gridManager.moveBackwards(northRover);
-        assertThat(responseNorth).isEqualTo("Rover moved to Cell (2,1)");
+        assertThat(responseNorth).isEqualTo("Execution success.");
 
         Rover southRover = createTestingRover(new Position(2, 2), Direction.SOUTH);
         gridManager.deployRover(southRover);
         String responseSouth = gridManager.moveBackwards(southRover);
-        assertThat(responseSouth).isEqualTo("Rover moved to Cell (2,3)");
+        assertThat(responseSouth).isEqualTo("Execution success.");
 
         Rover eastRover = createTestingRover(new Position(2, 2), Direction.EAST);
         gridManager.deployRover(eastRover);
         String responseEast = gridManager.moveBackwards(eastRover);
-        assertThat(responseEast).isEqualTo("Rover moved to Cell (1,2)");
+        assertThat(responseEast).isEqualTo("Execution success.");
 
         Rover westRover = createTestingRover(new Position(2, 2), Direction.WEST);
         gridManager.deployRover(westRover);
         String responseWest = gridManager.moveBackwards(westRover);
-        assertThat(responseWest).isEqualTo("Rover moved to Cell (3,2)");
+        assertThat(responseWest).isEqualTo("Execution success.");
     }
 
 
@@ -158,10 +158,10 @@ public class GridManagerTest {
         String eastResponse = gridManager.turnRoverRight(eastRover);
         String westResponse = gridManager.turnRoverRight(westRover);
 
-        assertThat(northResponse).isEqualTo("Rover turned right. Now facing EAST");
-        assertThat(southResponse).isEqualTo("Rover turned right. Now facing WEST");
-        assertThat(eastResponse).isEqualTo("Rover turned right. Now facing SOUTH");
-        assertThat(westResponse).isEqualTo("Rover turned right. Now facing NORTH");
+        assertThat(northResponse).isEqualTo("Execution success.");
+        assertThat(southResponse).isEqualTo("Execution success.");
+        assertThat(eastResponse).isEqualTo("Execution success.");
+        assertThat(westResponse).isEqualTo("Execution success.");
 
     }
 
@@ -194,10 +194,10 @@ public class GridManagerTest {
         String eastResponse = gridManager.turnRoverLeft(eastRover);
         String westResponse = gridManager.turnRoverLeft(westRover);
 
-        assertThat(northResponse).isEqualTo("Rover turned left. Now facing WEST");
-        assertThat(southResponse).isEqualTo("Rover turned left. Now facing EAST");
-        assertThat(eastResponse).isEqualTo("Rover turned left. Now facing NORTH");
-        assertThat(westResponse).isEqualTo("Rover turned left. Now facing SOUTH");
+        assertThat(northResponse).isEqualTo("Execution success.");
+        assertThat(southResponse).isEqualTo("Execution success.");
+        assertThat(eastResponse).isEqualTo("Execution success.");
+        assertThat(westResponse).isEqualTo("Execution success.");
 
     }
 

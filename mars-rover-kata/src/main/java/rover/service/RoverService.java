@@ -64,20 +64,18 @@ public class RoverService {
         StringBuilder log = new StringBuilder();
         Rover roverExec = findRoverById(id);
         int stage = 1;
+
+
         log.append(getLogHeader());
         for (char command : commands.toCharArray()) {
-            String description;
+            String description = "";
 
             switch (command) {
                 case 'f' -> description = gridManager.moveForward(roverExec);
                 case 'b' -> description = gridManager.moveBackwards(roverExec);
                 case 'l' -> description = gridManager.turnRoverLeft(roverExec);
                 case 'r' -> description = gridManager.turnRoverRight(roverExec);
-                default -> {
-                    description = "Unknown command";
-                    log.append(formatLogLine(stage++, command, roverExec, description)).append("\n");
-                    continue;
-                }
+
             }
 
             log.append(formatLogLine(stage++, command, roverExec, description)).append("\n");
@@ -145,9 +143,9 @@ public class RoverService {
         sb.append("======================================\n");
         sb.append("=== MARS ROVER KATA - EXECUTION LOG===\n");
         sb.append("======================================\n");
-        sb.append("-------------------------------------------------------------------------------------\n");
-        sb.append("| Stage |       Action        |     Position     |      Description\n");
-        sb.append("-------------------------------------------------------------------------------------\n");
+        sb.append("------------------------------------------------------------------------------\n");
+        sb.append("| Stage |       Action        |     Position     |     Description\n");
+        sb.append("------------------------------------------------------------------------------\n");
 
         return sb.toString();
 

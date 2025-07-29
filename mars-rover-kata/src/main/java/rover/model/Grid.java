@@ -19,6 +19,8 @@ public class Grid {
                 grid[x][y] = new Cell(false);
             }
         }
+
+
     }
 
     public boolean isPositionAvailable(Position position) {
