@@ -10,6 +10,9 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class GridManagerTest {
 
@@ -118,7 +121,9 @@ public class GridManagerTest {
 
     @Test
     public void moveBackwards_shouldMoveInCorrectDirection_whenDirectionIsAny() {
-        GridManager gridManager = new GridManager();
+
+        Grid grid = new Grid(List.of());
+        GridManager gridManager = new GridManager(grid);
 
         Rover northRover = createTestingRover(new Position(2, 2), Direction.NORTH);
         gridManager.deployRover(northRover);
@@ -140,6 +145,46 @@ public class GridManagerTest {
         String responseWest = gridManager.moveBackwards(westRover);
         assertThat(responseWest).isEqualTo("Execution success.");
     }
+    @Test
+    public void moveAny_shouldNotMove_whenRoverIsOff() {
+        Grid grid = new Grid(List.of());
+        GridManager gridManager = new GridManager(grid);
+
+        Rover mockRover = mock(Rover.class);
+        when(mockRover.isRunning()).thenReturn(false);
+        String responseForward = gridManager.moveForward(mockRover);
+        String responseBackwards = gridManager.moveBackwards(mockRover);
+        assertThat(responseForward).isEqualTo("Rover is not turned on.");
+        assertThat(responseBackwards).isEqualTo("Rover is not turned on.");
+
+    }
+    @Test
+    public void moveAny_shouldReturnCollision_whenNextPositionIsOccupied() {
+        Grid mockGrid = mock(Grid.class);
+        Rover mockRover = mock(Rover.class);
+        GridManager gridManager = new GridManager(mockGrid);
+
+        when(mockGrid.getRows()).thenReturn(5);
+        when(mockGrid.getColumns()).thenReturn(5);
+
+        when(mockRover.isRunning()).thenReturn(true);
+
+        Position currentPosition = new Position(2, 2);
+        Direction direction = Direction.NORTH;
+
+        when(mockRover.getPosition()).thenReturn(currentPosition);
+        when(mockRover.getDirection()).thenReturn(direction);
+
+        when(mockGrid.isPositionOccupied(any())).thenReturn(true);
+
+        String response = gridManager.moveForward(mockRover);
+        String responseBackwards = gridManager.moveBackwards(mockRover);
+        assertThat(response).contains("Collision!");
+        assertThat(responseBackwards).contains("Collision!");
+    }
+
+
+
 
 
     @Test

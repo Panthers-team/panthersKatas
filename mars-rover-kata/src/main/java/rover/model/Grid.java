@@ -1,18 +1,15 @@
 package rover.model;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
-import java.util.Random;
 
 @Getter
-@Setter
 public class Grid {
 
-    private Cell[][] grid;
-    private int rows;
-    private int columns;
+    private final Cell[][] grid;
+    private final int rows;
+    private final int columns;
 
 
     public Grid(List<Position> obstaclePositions) {
@@ -27,7 +24,7 @@ public class Grid {
         }
 
         for (Position pos : obstaclePositions) {
-            grid[pos.getX()][pos.getY()].setObstacle(true);
+            grid[pos.getX()][pos.getY()].setObstacle();
         }
     }
 

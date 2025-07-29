@@ -12,9 +12,17 @@ public class GridManager {
     private final Grid grid;
 
     public GridManager() {
-        grid = new Grid(List.of());
-    }
 
+        List<Position> obstacles = List.of(
+                new Position(3, 0),
+                new Position(3, 1),
+                new Position(3, 2),
+                new Position(3, 3),
+                new Position(3, 4)
+        );
+
+        grid = new Grid(obstacles);
+    }
     public GridManager(Grid grid) {
         this.grid = grid;
     }
@@ -55,7 +63,7 @@ public class GridManager {
         Direction oppositeDirection = currentRover.getDirection().opposite();
         Position nextPosition = calculateNextPosition(currentPosition, oppositeDirection);
 
-        if (grid.isPositionOccupied(nextPosition)) return "Next position is already occupied.";
+        if (grid.isPositionOccupied(nextPosition)) return "Collision! Rock detected at: (" + nextPosition.getX() + ", " + nextPosition.getY() + ")";
 
         grid.removeRoverFromCell(currentPosition);
         currentRover.setPosition(nextPosition);
