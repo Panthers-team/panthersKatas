@@ -3,6 +3,8 @@ package rover.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Random;
+
 @Getter
 @Setter
 public class Grid {
@@ -10,6 +12,7 @@ public class Grid {
     private Cell[][] grid;
     private int rows;
     private int columns;
+
     public Grid() {
         rows = 5;
         columns = 5;
@@ -18,10 +21,28 @@ public class Grid {
             for (int y = 0; y < columns; y++) {
                 grid[x][y] = new Cell(false);
             }
+
+            placeRandomObstacles(5);
         }
 
 
     }
+
+    private void placeRandomObstacles(int count) {
+        Random random = new Random();
+        int placed = 0;
+
+        while (placed < count) {
+            int x = random.nextInt(rows);
+            int y = random.nextInt(columns);
+
+            if (!grid[x][y].isObstacle()) {
+                grid[x][y].setObstacle(true);
+                placed++;
+            }
+        }
+    }
+
 
     public boolean isPositionAvailable(Position position) {
         int x = position.getX();
@@ -46,4 +67,6 @@ public class Grid {
         Cell cell = grid[currentPosition.getX()][currentPosition.getY()];
         cell.removeRover();
     }
+
+
 }
