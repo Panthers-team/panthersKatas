@@ -202,19 +202,15 @@ public class RoverServiceTest {
     @Test
     public void executeCommands_shouldExecuteAllSuccessfully_whenNoCollisions() {
         RoverService roverService = new RoverService();
-        Rover executeCommandsRover = createTestingRover(new Position(0, 0), Direction.NORTH);
+        Rover executeCommandsRover = createTestingRover(new Position(0, 0));
         String commands = "ffrfflbb";
 
 
-
         roverService.deployRover(executeCommandsRover);
-
-
         String response = roverService.executeCommands(executeCommandsRover.getId(),commands);
 
-
-
-        assertThat(response).isEqualTo(null);
+        assertThat(executeCommandsRover.getX()).isEqualTo(2);
+        assertThat(executeCommandsRover.getY()).isEqualTo(0);
     }
 
 
@@ -229,11 +225,11 @@ public class RoverServiceTest {
 
     }
 
-    private Rover createTestingRover(Position position, Direction direction) {
+    private Rover createTestingRover(Position position) {
         return Rover.builder()
                 .position(position)
                 .name("TestRover")
-                .direction(direction)
+                .direction(Direction.NORTH)
                 .running(true)
                 .build();
     }
