@@ -143,7 +143,25 @@ public class GridManagerTest {
     @Test
     public void turnRight_shouldTurnRight_whenFacingAnyDirection() {
         GridManager gridManager = new GridManager();
+        Rover northRover = createTestingRover(new Position(2, 2), Direction.NORTH);
+        Rover southRover = createTestingRover(new Position(2, 2), Direction.SOUTH);
+        Rover eastRover = createTestingRover(new Position(2, 2), Direction.EAST);
+        Rover westRover = createTestingRover(new Position(2, 2), Direction.WEST);
 
+        gridManager.deployRover(northRover);
+        gridManager.deployRover(southRover);
+        gridManager.deployRover(eastRover);
+        gridManager.deployRover(westRover);
+
+        String northResponse = gridManager.turnRoverRight(northRover);
+        String southResponse = gridManager.turnRoverRight(southRover);
+        String eastResponse = gridManager.turnRoverRight(eastRover);
+        String westResponse = gridManager.turnRoverRight(westRover);
+
+        assertThat(northResponse).isEqualTo("Rover turned right. Now facing EAST");
+        assertThat(southResponse).isEqualTo("Rover turned right. Now facing WEST");
+        assertThat(eastResponse).isEqualTo("Rover turned right. Now facing SOUTH");
+        assertThat(westResponse).isEqualTo("Rover turned right. Now facing NORTH");
 
     }
 

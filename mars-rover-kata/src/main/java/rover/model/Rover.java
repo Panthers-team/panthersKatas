@@ -19,4 +19,7 @@ public class Rover {
         return position.getY();
     }
 
+    public void turnRight() {this.direction = this.direction.turnRight();}
+    public void turnLeft() {this.direction = this.direction.turnLeft();}
+
 }

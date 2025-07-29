@@ -79,4 +79,9 @@ public class GridManager {
         }
         return new Position(x, y);
     }
+
+    public String turnRoverRight(Rover currentRover) {
+        currentRover.turnRight();
+        return "Rover turned right. Now facing " + currentRover.getDirection();
+    }
 }
