@@ -117,29 +117,35 @@ public class GridManagerTest {
     @Test
     public void moveBackwards_shouldMoveInCorrectDirection_whenDirectionIsAny() {
         GridManager gridManager = new GridManager();
-        RoverService roverService = new RoverService();
 
         Rover northRover = createTestingRover(new Position(2, 2), Direction.NORTH);
-        roverService.deployRover(northRover);
+        gridManager.deployRover(northRover);
         String responseNorth = gridManager.moveBackwards(northRover);
         assertThat(responseNorth).isEqualTo("Rover moved to Cell (2,1)");
 
         Rover southRover = createTestingRover(new Position(2, 2), Direction.SOUTH);
-        roverService.deployRover(southRover);
+        gridManager.deployRover(southRover);
         String responseSouth = gridManager.moveBackwards(southRover);
         assertThat(responseSouth).isEqualTo("Rover moved to Cell (2,3)");
 
         Rover eastRover = createTestingRover(new Position(2, 2), Direction.EAST);
-        roverService.deployRover(eastRover);
+        gridManager.deployRover(eastRover);
         String responseEast = gridManager.moveBackwards(eastRover);
         assertThat(responseEast).isEqualTo("Rover moved to Cell (1,2)");
 
         Rover westRover = createTestingRover(new Position(2, 2), Direction.WEST);
-        roverService.deployRover(westRover);
+        gridManager.deployRover(westRover);
         String responseWest = gridManager.moveBackwards(westRover);
         assertThat(responseWest).isEqualTo("Rover moved to Cell (3,2)");
     }
 
+
+    @Test
+    public void turnRight_shouldTurnRight_whenFacingAnyDirection() {
+        GridManager gridManager = new GridManager();
+
+
+    }
 
     private Rover createTestingRover(Position position, Direction direction) {
         return Rover.builder()
