@@ -194,10 +194,10 @@ public class GridManagerTest {
         String eastResponse = gridManager.turnRoverLeft(eastRover);
         String westResponse = gridManager.turnRoverLeft(westRover);
 
-        assertThat(northResponse).isEqualTo("Rover turned right. Now facing EAST");
-        assertThat(southResponse).isEqualTo("Rover turned right. Now facing WEST");
-        assertThat(eastResponse).isEqualTo("Rover turned right. Now facing SOUTH");
-        assertThat(westResponse).isEqualTo("Rover turned right. Now facing NORTH");
+        assertThat(northResponse).isEqualTo("Rover turned left. Now facing WEST");
+        assertThat(southResponse).isEqualTo("Rover turned left. Now facing EAST");
+        assertThat(eastResponse).isEqualTo("Rover turned left. Now facing NORTH");
+        assertThat(westResponse).isEqualTo("Rover turned left. Now facing SOUTH");
 
     }
 

@@ -89,7 +89,12 @@ public class GridManager {
         return "Rover turned right. Now facing " + currentRover.getDirection();
     }
 
-    public String turnRoverLeft(Rover northRover) {
-        return null;
+    public String turnRoverLeft(Rover currentRover) {
+        if (!currentRover.isRunning()) {
+            return "Rover is not turned on.";
+        }
+
+        currentRover.turnLeft();
+        return "Rover turned left. Now facing " + currentRover.getDirection();
     }
 }
