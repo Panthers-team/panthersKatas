@@ -199,6 +199,49 @@ public class RoverServiceTest {
     }
 
 
+    @Test
+    public void executeCommands_shouldExecuteAllSuccessfully_whenNoCollisions() {
+        RoverService roverService = new RoverService();
+        Rover executeCommandsRover = createTestingRover(new Position(0, 0), Direction.NORTH);
+        String commands = "ffrfflbb";
+
+
+
+        roverService.deployRover(executeCommandsRover);
+
+
+        String response = roverService.executeCommands(executeCommandsRover.getId(),commands);
+
+
+
+        assertThat(response).isEqualTo(null);
+    }
+
+
+
+    @Test
+    public void executeCommands_shouldStopAndLogCollision_whenObstacleEncountered() {
+
+    }
+
+    @Test
+    public void executeCommands_shouldReturnError_whenRoverIdDoesNotExist() {
+
+    }
+
+    private Rover createTestingRover(Position position, Direction direction) {
+        return Rover.builder()
+                .position(position)
+                .name("TestRover")
+                .direction(direction)
+                .running(true)
+                .build();
+    }
+
+
+
+
+
 
 
 
