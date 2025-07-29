@@ -165,6 +165,16 @@ public class GridManagerTest {
 
     }
 
+    @Test
+    public void turnRight_shouldNotTurnRight_whenRoverIsOff() {
+        GridManager gridManager = new GridManager();
+        Rover offRover = createTestingRover(new Position(2, 2), Direction.NORTH);
+        offRover.setRunning(false);
+        gridManager.deployRover(offRover);
+        String offResponse = gridManager.turnRoverRight(offRover);
+        assertThat(offResponse).isEqualTo("Rover is not turned on.");
+    }
+
     private Rover createTestingRover(Position position, Direction direction) {
         return Rover.builder()
                 .position(position)

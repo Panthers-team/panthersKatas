@@ -81,6 +81,10 @@ public class GridManager {
     }
 
     public String turnRoverRight(Rover currentRover) {
+        if (!currentRover.isRunning()) {
+            return "Rover is not turned on.";
+        }
+
         currentRover.turnRight();
         return "Rover turned right. Now facing " + currentRover.getDirection();
     }
