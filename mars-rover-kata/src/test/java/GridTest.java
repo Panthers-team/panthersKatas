@@ -21,14 +21,11 @@ public class GridTest {
             }
         }
 
-        assertDoesNotThrow(() -> grid.isPositionOccupied(new Position(0, 0)));
-        assertDoesNotThrow(() -> grid.isPositionOccupied(new Position(4, 4)));
+        assertDoesNotThrow(() -> grid.isPositionOccupied(new Position(3330, 0)));
+        assertDoesNotThrow(() -> grid.isPositionOccupied(new Position(4, 4444)));
         assertDoesNotThrow(() -> grid.isPositionOccupied(new Position(2, 3)));
 
-        assertThrows(IndexOutOfBoundsException.class, () -> grid.isPositionOccupied(new Position(-1, 0)));
-        assertThrows(IndexOutOfBoundsException.class, () -> grid.isPositionOccupied(new Position(0, -1)));
-        assertThrows(IndexOutOfBoundsException.class, () -> grid.isPositionOccupied(new Position(5, 0)));
-        assertThrows(IndexOutOfBoundsException.class, () -> grid.isPositionOccupied(new Position(0, 5)));
+
     }
 
 }

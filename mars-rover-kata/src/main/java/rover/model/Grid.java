@@ -31,25 +31,28 @@ public class Grid {
 
 
     public boolean isPositionOccupied(Position position) {
-        int x = position.getX();
-        int y = position.getY();
-        boolean positionInBounds = x >= 0 && x < rows && y >= 0 && y < columns;
-
-        if (!positionInBounds) {
-            throw new IndexOutOfBoundsException("Position out of bounds!");
-        }
+        int x = position.getX() % rows;
+        int y = position.getY() % columns;
 
         Cell cell = grid[x][y];
         return cell.isObstacle() || cell.getRover() != null;
     }
 
 
+
     public void deployRoverInPosition(Rover currentRover) {
+        currentRover.setPosition(getSpherePosition(currentRover));
         Cell cell = grid[currentRover.getX()][currentRover.getY()];
         cell.occupyWithRover(currentRover);
     }
 
+    private Position getSpherePosition(Rover currentRover) {
+        return new Position(currentRover.getX() % rows, currentRover.getY() % columns);
+    }
+
     public void removeRoverFromCell(Position currentPosition) {
+        currentPosition.setX(currentPosition.getX() % rows);
+        currentPosition.setY(currentPosition.getY() % columns);
         Cell cell = grid[currentPosition.getX()][currentPosition.getY()];
         cell.removeRover();
     }

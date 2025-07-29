@@ -93,7 +93,7 @@ public class RoverControllerTest {
         RoverService mockService = mock(RoverService.class);
         RoverController controller = new RoverController(mockService);
 
-        Map<String, String> request = Map.of("command", "ffr");
+        Map<String, String> request = Map.of("commands", "ffr");
         when(mockService.executeCommands(1, "ffr")).thenReturn("Execution log...");
 
         String result = controller.executeRover(1, request);
@@ -101,6 +101,10 @@ public class RoverControllerTest {
         assertEquals("Execution log...", result);
         verify(mockService).executeCommands(1, "ffr");
     }
+
+
+
+
 
 
     @Test

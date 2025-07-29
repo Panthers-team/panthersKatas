@@ -172,6 +172,35 @@ public class RoverServiceTest {
         assertThat(response).isEqualTo("Rover with ID 9 is not found.");
     }
 
+    @Test
+    public void turnAny_shouldReturnNotFound_whenIdDoesNotMatchAnyRover() {
+        Rover rover1 = Rover.builder()
+                .id(1)
+                .name("rover 1")
+                .position(new Position(0, 0))
+                .direction(Direction.NORTH)
+                .running(false)
+                .build();
+
+        Rover rover2 = Rover.builder()
+                .id(2)
+                .name("rover 2")
+                .position(new Position(1, 1))
+                .direction(Direction.EAST)
+                .running(true)
+                .build();
+
+        RoverService roverService = new RoverService();
+        roverService.deployRover(rover1);
+        roverService.deployRover(rover2);
+
+        String turnOnResult = roverService.turnOnRover(99);
+        String turnOffResult = roverService.turnOffRover(99);
+
+        assertThat(turnOnResult).isEqualTo("Rover with ID 99 is not found.");
+        assertThat(turnOffResult).isEqualTo("Rover with ID 99 is not found.");
+    }
+
 
     @Test
     public void findRover_shouldReturnRover_whenIdExists() {
@@ -195,12 +224,22 @@ public class RoverServiceTest {
 
     @Test
     public void findRover_shouldReturnError_whenIdNotExists() {
+        Rover existingRover = Rover.builder()
+                .id(1)
+                .name("Demo")
+                .position(new Position(0, 0))
+                .direction(Direction.NORTH)
+                .running(true)
+                .build();
+
         RoverService roverService = new RoverService();
 
+        roverService.deployRover(existingRover);
         assertThatThrownBy(() -> roverService.findRoverById(-1))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("No rover found with id -1");
     }
+
 
 
     @Test

@@ -33,8 +33,9 @@ public class RoverController {
     }
     @PostMapping("/rover/{id}")
     public String executeRover(@PathVariable int id, @RequestBody Map<String, String> request) {
-        return roverService.executeCommands(id,request.get("command"));
+        return roverService.executeCommands(id, request.get("commands"));
     }
+
     @GetMapping("/turn-on-rover/{id}")
     public String turnOnRover(@PathVariable int id) {
         return roverService.turnOnRover(id);

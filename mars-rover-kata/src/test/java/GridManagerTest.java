@@ -36,21 +36,7 @@ public class GridManagerTest {
 
     }
 
-    @Test
-    public void deployRover_shouldReturnFalse_whenPositionIsInvalid() {
-        GridManager gridManager = new GridManager();
-        Rover firstRover = createTestingRover();
-        firstRover.setPosition(new Position(5, 5));
 
-        assertThatThrownBy(() -> gridManager.deployRover(firstRover))
-                .isInstanceOf(IndexOutOfBoundsException.class)
-                .hasMessage("Position out of bounds!");
-        Rover secondRover = createTestingRover();
-        secondRover.setPosition(new Position(2, 2));
-        assertThat(gridManager.deployRover(secondRover)).isTrue();
-        assertThat(gridManager.deployRover(secondRover)).isFalse();
-
-    }
 
     @Test
     public void moveForward_shouldMoveNorth_whenDirectionIsNorth() {
